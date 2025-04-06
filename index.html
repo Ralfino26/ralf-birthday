@@ -51,6 +51,7 @@
       background-size: cover;
       background-repeat: no-repeat;
     }
+    
     .section {
       padding: 4rem 2rem;
       max-width: 700px;
@@ -85,26 +86,7 @@
     span {
       color: #38bdf8;
     }
-    .carousel {
-      overflow: hidden;
-      position: relative;
-      width: 100%;
-      max-width: 700px;
-      margin: 3rem auto;
-      border-radius: 1rem;
-      box-shadow: 0 0 25px rgba(255, 0, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.2);
-    }
-    .carousel-track {
-      display: flex;
-      width: max-content;
-      animation: scroll 20s linear infinite;
-    }
-    .carousel img {
-      width: 50%;
-      height: auto;
-      flex-shrink: 0;
-      max-width: 350px;
-    }
+
     @keyframes scroll {
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
@@ -112,6 +94,12 @@
   </style>
 </head>
 <body>
+  <div id="explosion" style="position: absolute; width: 100px; height: 100px; display: none; pointer-events: none;
+  background-image: url('explosion.gif');
+  background-size: cover;
+  background-repeat: no-repeat;">
+</div>
+
   <div class="top-bar">Tip: Deze site is scrolbaar.<br>Scrol tot einde!</div>
 
   <div id="dvd"></div>
@@ -122,15 +110,7 @@
     <p>Geen influencer. Geen dropshipper.<br>Gewoon een man met een doel:<br><span class="text-orange-400 font-bold">Rijk zijn voor m’n 30e.</span></p>
   </div>
 
-  <!-- 🎠 CAROUSEL 1 -->
-  <div class="carousel">
-    <div class="carousel-track">
-      <img src="https://placekitten.com/700/400" alt="meme 1" />
-      <img src="https://placebear.com/700/400" alt="meme 2" />
-      <img src="https://picsum.photos/700/400?grayscale" alt="meme 3" />
-      <img src="https://placekitten.com/701/400" alt="meme 4" />
-    </div>
-  </div>
+
 
   <div class="section">
     <h2 class="text-2xl font-semibold">Wat wil ik van jou?</h2>
@@ -143,14 +123,6 @@
     <p>Je krijgt geen nieuwsbrief. Geen cursus. Alleen een plek in m’n verhaal.</p>
   </div>
 
-  <!-- 🎠 CAROUSEL 2 -->
-  <div class="carousel">
-    <div class="carousel-track">
-      <img src="https://placebeard.it/700x400" alt="weird 1" />
-      <img src="https://baconmockup.com/700/400" alt="weird 2" />
-      <img src="https://placekitten.com/702/400" alt="weird 3" />
-    </div>
-  </div>
 
   <div class="section">
     <h2 class="text-2xl font-semibold">Wat krijg jij terug?</h2>
@@ -172,9 +144,10 @@
 
   <div class="section">
     <h2 class="text-2xl font-bold mb-4">📣 Super Extreem Echte Reviews</h2>
-    <div class="review">“.Ralf heeft mijn leven niet veranderd, maar ik voel me wél armer nu.” – Michiel (betaalde €2, geen spijt)</div>
+    <div class="review">“Ralf heeft mijn leven niet veranderd, maar ik voel me wél armer nu.” – Michiel (betaalde €2, geen spijt)</div>
     <div class="review">“Ik doneerde uit medelijden. Nu wil ik aandelen.” – Anoniem</div>
     <div class="review">“Was dronken, klikte per ongeluk. Beste fout van m’n leven.” – Emily, 03:12u</div>
+    <div class="review">“Heb m’n huur betaald aan Ralf. Nog geen dak boven m’n kop, maar wel hoop.” – Senne</div>
     <div class="review">“Ik ben broke maar deze site is rijk aan vibes.” – ChatGPT</div>
   </div>
 
@@ -242,6 +215,40 @@
     }
 
     window.requestAnimationFrame(animateSonic);
+
+    // Sonic ontploft & verdwijnt bij klik
+sonic.addEventListener("click", () => {
+  sonic.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+  sonic.style.transform = "scale(2) rotate(720deg)";
+  sonic.style.opacity = "0";
+
+  setTimeout(() => {
+    sonic.remove(); // volledig uit DOM slopen
+  }, 300);
+});
+
+
+const explosion = document.getElementById("explosion");
+
+sonic.addEventListener("click", () => {
+  // Stop de animatie
+  cancelAnimationFrame(animateSonic);
+
+  // Positie van Sonic vastleggen
+  const rect = sonic.getBoundingClientRect();
+  explosion.style.left = rect.left + "px";
+  explosion.style.top = rect.top + "px";
+  explosion.style.display = "block";
+
+  // Sonic verbergen
+  sonic.style.display = "none";
+
+  // Na 1.5 seconden ook explosie weg
+  setTimeout(() => {
+    explosion.remove();
+  }, 1500);
+});
+
   </script>
 </body>
 </html>
